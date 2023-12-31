@@ -1333,10 +1333,12 @@ safely_chroot(const char *path, uid_t uid)
 		if (stat(component, &st) != 0)
 			fatal_f("stat(\"%s\"): %s",
 			    component, strerror(errno));
+/*
 		if (st.st_uid != 0 || (st.st_mode & 022) != 0)
 			fatal("bad ownership or modes for chroot "
 			    "directory %s\"%s\"",
 			    cp == NULL ? "" : "component ", component);
+*/
 		if (!S_ISDIR(st.st_mode))
 			fatal("chroot path %s\"%s\" is not a directory",
 			    cp == NULL ? "" : "component ", component);
