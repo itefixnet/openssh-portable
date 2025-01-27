@@ -1,4 +1,4 @@
-/* $OpenBSD: channels.h,v 1.156 2024/05/23 23:47:16 jsg Exp $ */
+/* $OpenBSD: channels.h,v 1.158 2024/10/13 22:20:06 djm Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -139,6 +139,8 @@ struct Channel {
 	u_int	io_ready;	/* bitmask of SSH_CHAN_IO_* */
 	int	pfds[4];	/* pollfd entries for rfd/wfd/efd/sock */
 	int     ctl_chan;	/* control channel (multiplexed connections) */
+	uint32_t ctl_child_id;	/* child session for mux controllers */
+	int	have_ctl_child_id;/* non-zero if ctl_child_id is valid */
 	int     isatty;		/* rfd is a tty */
 #ifdef _AIX
 	int     wfd_isatty;	/* wfd is a tty */
@@ -380,6 +382,7 @@ int	 x11_connect_display(struct ssh *);
 int	 x11_create_display_inet(struct ssh *, int, int, int, u_int *, int **);
 void	 x11_request_forwarding_with_spoofing(struct ssh *, int,
 	    const char *, const char *, const char *, int);
+int      x11_channel_used_recently(struct ssh *ssh);
 
 /* channel close */
 
